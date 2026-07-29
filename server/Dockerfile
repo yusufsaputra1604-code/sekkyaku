@@ -3,7 +3,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install --production
+RUN npm install
 
 COPY prisma ./prisma/
 RUN npx prisma generate
@@ -14,4 +14,4 @@ RUN mkdir -p uploads
 
 EXPOSE 5000
 
-CMD ["node", "src/index.js"]
+CMD ["sh", "-c", "npx prisma db push && node src/index.js"]
