@@ -2,8 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
+const fs = require('fs');
 
 dotenv.config();
+
+console.log('Starting server...');
+console.log('PORT:', process.env.PORT || 5000);
+console.log('DATABASE_URL set:', !!process.env.DATABASE_URL);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -57,11 +62,17 @@ app.use('/api/time-logs', timeLogRoutes);
 app.use('/api/portal', portalRoutes);
 
 const frontendPath = path.join(__dirname, '../../client/dist');
-app.use(express.static(frontendPath));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(frontendPath, 'index.html'));
-});
+const fs = require('fs');
 
-app.listen(PORT, () => {
+if (fs.existsSync(frontendPath)) {
+  app.use(express.static(frontendPath));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendPath, 'index.html'));
+  });
+} else {
+  console.warn('Frontend dist not found, serving API only');
+}
+
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });

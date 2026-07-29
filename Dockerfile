@@ -1,4 +1,4 @@
-FROM node:20-alpine AS builder
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -15,18 +15,7 @@ RUN cd client && npm run build
 
 COPY server ./server/
 
-FROM node:20-alpine
-
-WORKDIR /app
-
-COPY --from=builder /app/server/package*.json ./server/
-RUN cd server && npm install --production
-
-COPY --from=builder /app/server/prisma ./server/prisma/
 RUN cd server && npx prisma generate
-
-COPY --from=builder /app/server/src ./server/src/
-COPY --from=builder /app/client/dist ./client/dist/
 
 RUN mkdir -p server/uploads
 
