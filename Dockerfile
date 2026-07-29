@@ -19,17 +19,17 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY --from=builder /app/server/package*.json ./
-RUN npm install --production
+COPY --from=builder /app/server/package*.json ./server/
+RUN cd server && npm install --production
 
-COPY --from=builder /app/server/prisma ./prisma/
-RUN npx prisma generate
+COPY --from=builder /app/server/prisma ./server/prisma/
+RUN cd server && npx prisma generate
 
-COPY --from=builder /app/server/src ./src/
+COPY --from=builder /app/server/src ./server/src/
 COPY --from=builder /app/client/dist ./client/dist/
 
-RUN mkdir -p uploads
+RUN mkdir -p server/uploads
 
 EXPOSE 5000
 
-CMD ["sh", "-c", "npx prisma db push && node src/index.js"]
+CMD ["sh", "-c", "cd server && npx prisma db push && node src/index.js"]
