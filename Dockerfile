@@ -23,4 +23,4 @@ EXPOSE 5000
 
 WORKDIR /app/server
 
-CMD ["node", "src/index.js"]
+CMD ["sh", "-c", "./node_modules/.bin/prisma db push --skip-generate 2>&1 && node src/index.js"]

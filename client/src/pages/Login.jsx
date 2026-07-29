@@ -31,7 +31,7 @@ export default function Login() {
   const handleSaveServer = () => {
     setApiUrl(serverUrl);
     setShowSettings(false);
-    window.location.reload();
+    setError('');
   };
 
   return (
@@ -108,7 +108,7 @@ export default function Login() {
                   value={serverUrl}
                   onChange={(e) => setServerUrl(e.target.value)}
                   className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-white dark:bg-[#0f172a] text-gray-900 dark:text-white text-sm"
-                  placeholder="https://your-server.railway.app/api"
+                  placeholder="https://sekkyaku-xxx.up.railway.app"
                 />
                 <button
                   type="button"
