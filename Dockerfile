@@ -17,8 +17,9 @@ COPY server ./server/
 
 RUN cd server && npx prisma generate
 
+RUN chmod +x server/start.sh
 RUN mkdir -p server/uploads
 
 EXPOSE 5000
 
-CMD ["sh", "-c", "cd server && npx prisma db push && node src/index.js"]
+CMD ["sh", "server/start.sh"]
