@@ -1,13 +1,7 @@
 import axios from 'axios';
 
-function buildBaseUrl(url) {
-  if (!url) return '/api';
-  const clean = url.replace(/\/api\/?$/, '');
-  return clean + '/api';
-}
-
 const api = axios.create({
-  baseURL: buildBaseUrl(localStorage.getItem('api_url') || ''),
+  baseURL: '/api',
 });
 
 api.interceptors.request.use((config) => {
@@ -28,15 +22,5 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-export const setApiUrl = (url) => {
-  const clean = url.replace(/\/api\/?$/, '');
-  localStorage.setItem('api_url', clean);
-  api.defaults.baseURL = buildBaseUrl(clean);
-};
-
-export const getApiUrl = () => {
-  return localStorage.getItem('api_url') || '';
-};
 
 export default api;

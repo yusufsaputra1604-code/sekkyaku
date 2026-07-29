@@ -1,16 +1,13 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import useAuthStore from '../stores/authStore';
-import { setApiUrl, getApiUrl } from '../lib/api';
-import { Zap, Settings } from 'lucide-react';
+import { Zap } from 'lucide-react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
-  const [serverUrl, setServerUrl] = useState(getApiUrl());
   const { login } = useAuthStore();
   const navigate = useNavigate();
 
@@ -26,12 +23,6 @@ export default function Login() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleSaveServer = () => {
-    setApiUrl(serverUrl);
-    setShowSettings(false);
-    setError('');
   };
 
   return (
@@ -82,47 +73,12 @@ export default function Login() {
             {loading ? 'Loading...' : 'Masuk'}
           </button>
 
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Belum punya akun?{' '}
-              <Link to="/register" className="text-purple-600 dark:text-purple-400 hover:underline font-medium">
-                Daftar
-              </Link>
-            </p>
-            <button
-              type="button"
-              onClick={() => setShowSettings(!showSettings)}
-              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-              title="Server Settings"
-            >
-              <Settings className="w-5 h-5" />
-            </button>
-          </div>
-
-          {showSettings && (
-            <div className="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Server URL</label>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={serverUrl}
-                  onChange={(e) => setServerUrl(e.target.value)}
-                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-white dark:bg-[#0f172a] text-gray-900 dark:text-white text-sm"
-                  placeholder="https://sekkyaku-xxx.up.railway.app"
-                />
-                <button
-                  type="button"
-                  onClick={handleSaveServer}
-                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm"
-                >
-                  Simpan
-                </button>
-              </div>
-              <p className="text-xs text-gray-400 mt-1">
-                Kosongkan untuk mode lokal
-              </p>
-            </div>
-          )}
+          <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+            Belum punya akun?{' '}
+            <Link to="/register" className="text-purple-600 dark:text-purple-400 hover:underline font-medium">
+              Daftar
+            </Link>
+          </p>
         </form>
       </div>
     </div>
