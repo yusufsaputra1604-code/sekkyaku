@@ -15,7 +15,7 @@ RUN cd client && npm run build
 
 COPY server ./server/
 
-RUN cd server && npx prisma generate
+RUN cd server && ./node_modules/.bin/prisma generate
 
 RUN chmod +x server/start.sh
 RUN mkdir -p server/uploads
