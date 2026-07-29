@@ -17,9 +17,8 @@ COPY server ./server/
 
 RUN cd server && ./node_modules/.bin/prisma generate
 
-RUN chmod +x server/start.sh
 RUN mkdir -p server/uploads
 
 EXPOSE 5000
 
-CMD ["sh", "server/start.sh"]
+CMD ["sh", "-c", "cd server && (if [ -n \"$DATABASE_URL\" ]; then ./node_modules/.bin/prisma db push --skip-generate 2>&1; fi) && node src/index.js"]
